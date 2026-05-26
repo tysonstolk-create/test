@@ -26,7 +26,7 @@
     #splash {
       position: fixed;
       inset: 0;
-      background: #1B3566;
+      background: #1B3566 url('bg.png') center center / cover no-repeat;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -41,84 +41,14 @@
       pointer-events: none;
     }
 
-    .splash-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .since-text {
-      color: #FFFFFF;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-family: Arial, sans-serif;
-    }
-
-    .logo-wrap {
-      position: relative;
-      width: 220px;
-      height: 110px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .jersey-text {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #CC2222;
-      font-size: 3.2rem;
-      font-weight: 900;
-      font-style: italic;
-      font-family: 'Arial Black', Arial, sans-serif;
-      text-shadow:
-        -3px -3px 0 #fff,
-         3px -3px 0 #fff,
-        -3px  3px 0 #fff,
-         3px  3px 0 #fff;
-      white-space: nowrap;
-      line-height: 1;
-    }
-
-    .mikes-text {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #CC2222;
-      font-size: 3rem;
-      font-weight: 900;
-      font-style: italic;
-      font-family: 'Arial Black', Arial, sans-serif;
-      text-shadow:
-        -3px -3px 0 #fff,
-         3px -3px 0 #fff,
-        -3px  3px 0 #fff,
-         3px  3px 0 #fff;
-      white-space: nowrap;
-      line-height: 1;
-    }
-
-    .subs-text {
-      color: #FFFFFF;
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      font-family: Arial, sans-serif;
-    }
-
     .tap-hint {
       position: absolute;
       bottom: 60px;
-      color: rgba(255,255,255,0.55);
-      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+      font-weight: 600;
       letter-spacing: 0.08em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
     }
 
     /* ── COUPON SCREEN ── */
@@ -334,14 +264,6 @@
 
   <!-- SPLASH -->
   <div id="splash" onclick="openCoupon()">
-    <div class="splash-inner">
-      <div class="since-text">Since 1956</div>
-      <div class="logo-wrap">
-        <div class="jersey-text">Jersey</div>
-        <div class="mikes-text">Mike's<sup style="font-size:1rem">®</sup></div>
-      </div>
-      <div class="subs-text">Subs</div>
-    </div>
     <div class="tap-hint">Tap to open coupon</div>
   </div>
 
