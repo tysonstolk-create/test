@@ -1,5 +1,5 @@
-const CACHE = 'jm-coupon-v1';
-const ASSETS = ['./', './index.html', './manifest.json'];
+const CACHE = 'jm-coupon-v2';
+const ASSETS = ['./', './index.html', './manifest.json', './bg.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
