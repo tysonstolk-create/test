@@ -1,4 +1,4 @@
-const CACHE = 'jm-coupon-v2';
+const CACHE = 'jm-coupon-v3';
 const ASSETS = ['./', './index.html', './manifest.json', './bg.png'];
 
 self.addEventListener('install', e => {
