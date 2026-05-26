@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Jersey Mike's" />
+  <meta name="theme-color" content="#1B3566" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <title>Jersey Mike's</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #1B3566;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* ── SPLASH SCREEN ── */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #1B3566;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: opacity 0.6s ease;
+      cursor: pointer;
+    }
+
+    #splash.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .splash-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .since-text {
+      color: #FFFFFF;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-family: Arial, sans-serif;
+    }
+
+    .logo-wrap {
+      position: relative;
+      width: 220px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .jersey-text {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #CC2222;
+      font-size: 3.2rem;
+      font-weight: 900;
+      font-style: italic;
+      font-family: 'Arial Black', Arial, sans-serif;
+      text-shadow:
+        -3px -3px 0 #fff,
+         3px -3px 0 #fff,
+        -3px  3px 0 #fff,
+         3px  3px 0 #fff;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .mikes-text {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #CC2222;
+      font-size: 3rem;
+      font-weight: 900;
+      font-style: italic;
+      font-family: 'Arial Black', Arial, sans-serif;
+      text-shadow:
+        -3px -3px 0 #fff,
+         3px -3px 0 #fff,
+        -3px  3px 0 #fff,
+         3px  3px 0 #fff;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .subs-text {
+      color: #FFFFFF;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-family: Arial, sans-serif;
+    }
+
+    .tap-hint {
+      position: absolute;
+      bottom: 60px;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── COUPON SCREEN ── */
+    #coupon {
+      position: fixed;
+      inset: 0;
+      background: #f5f5f5;
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease 0.3s;
+      padding: 16px;
+    }
+
+    #coupon.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .coupon-card {
+      background: #fff;
+      border: 3px dashed #9daec8;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 420px;
+      padding: 24px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .buy-one-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .buy-one-big {
+      color: #1B3566;
+      font-size: 3.4rem;
+      font-weight: 900;
+      font-family: 'Arial Black', Arial, sans-serif;
+      line-height: 0.9;
+      flex: 1;
+    }
+
+    .regular-sub-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 6px;
+    }
+
+    .regular-label {
+      color: #1B3566;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+
+    .sub-label {
+      color: #1B3566;
+      font-size: 1.6rem;
+      font-weight: 900;
+      font-family: 'Arial Black', Arial, sans-serif;
+      line-height: 1;
+    }
+
+    .get-one-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .get-one-script {
+      color: #7a9bbf;
+      font-size: 2.2rem;
+      font-style: italic;
+      font-weight: 400;
+      font-family: Georgia, serif;
+      flex-shrink: 0;
+    }
+
+    .regular-sub-free {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .reg-sub-star {
+      color: #1B3566;
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-family: 'Arial Black', Arial, sans-serif;
+      line-height: 1;
+    }
+
+    .free-text {
+      color: #7a9bbf;
+      font-size: 3.2rem;
+      font-weight: 900;
+      font-family: 'Arial Black', Arial, sans-serif;
+      line-height: 0.95;
+    }
+
+    .middle-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .jm-badge {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid #CC2222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .badge-since {
+      color: #1B3566;
+      font-size: 0.45rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-jersey {
+      color: #CC2222;
+      font-size: 0.75rem;
+      font-weight: 900;
+      font-style: italic;
+      font-family: 'Arial Black', Arial, sans-serif;
+      line-height: 1;
+    }
+
+    .badge-mikes {
+      color: #CC2222;
+      font-size: 0.7rem;
+      font-weight: 900;
+      font-style: italic;
+      font-family: 'Arial Black', Arial, sans-serif;
+      line-height: 1;
+    }
+
+    .badge-subs {
+      color: #1B3566;
+      font-size: 0.45rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .equal-lesser {
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .star-red { color: #CC2222; }
+
+    .offer-banner {
+      background: #1B3566;
+      color: #fff;
+      text-align: center;
+      padding: 8px 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border-radius: 4px;
+    }
+
+    .fine-print {
+      color: #555;
+      font-size: 0.72rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .barcode-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .barcode {
+      width: 100%;
+      height: 50px;
+      display: flex;
+      align-items: stretch;
+      gap: 1px;
+      overflow: hidden;
+    }
+
+    .barcode-num {
+      color: #333;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SPLASH -->
+  <div id="splash" onclick="openCoupon()">
+    <div class="splash-inner">
+      <div class="since-text">Since 1956</div>
+      <div class="logo-wrap">
+        <div class="jersey-text">Jersey</div>
+        <div class="mikes-text">Mike's<sup style="font-size:1rem">®</sup></div>
+      </div>
+      <div class="subs-text">Subs</div>
+    </div>
+    <div class="tap-hint">Tap to open coupon</div>
+  </div>
+
+  <!-- COUPON -->
+  <div id="coupon">
+    <div class="coupon-card">
+
+      <!-- BUY ONE -->
+      <div class="buy-one-row">
+        <div class="buy-one-big">BUY<br>ONE</div>
+        <div class="regular-sub-stack">
+          <div class="regular-label">REGULAR</div>
+          <div class="sub-label">SUB</div>
+        </div>
+      </div>
+
+      <!-- GET ONE FREE -->
+      <div class="get-one-row">
+        <div class="get-one-script">Get One</div>
+        <div class="regular-sub-free">
+          <div class="reg-sub-star">REGULAR SUB<span class="star-red">*</span></div>
+          <div class="free-text">FREE!</div>
+        </div>
+      </div>
+
+      <!-- LOGO + DISCLAIMER -->
+      <div class="middle-row">
+        <div class="jm-badge">
+          <div class="badge-since">SINCE 1998</div>
+          <div class="badge-jersey">Jersey</div>
+          <div class="badge-mikes">Mike's<sup style="font-size:0.4rem">®</sup></div>
+          <div class="badge-subs">SUBS</div>
+        </div>
+        <div class="equal-lesser">
+          <span class="star-red">*</span>of equal or<br>lesser value.
+        </div>
+      </div>
+
+      <!-- BANNER -->
+      <div class="offer-banner">OFFER ONLY VALID AT PARTICIPATING LOCATIONS</div>
+
+      <!-- FINE PRINT -->
+      <div class="fine-print">
+        One coupon per person per visit per day. Not to be combined<br>
+        with other offers. No cash value. Not valid online.
+      </div>
+
+      <!-- BARCODE -->
+      <div class="barcode-area">
+        <div class="barcode" id="barcode"></div>
+        <div class="barcode-num">0718</div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Generate barcode bars
+    const bc = document.getElementById('barcode');
+    const pattern = [3,1,2,1,3,2,1,2,1,3,1,2,3,1,1,2,3,1,2,1,1,3,2,1,3,1,2,1,3,2,1,1,3,2,1,3,1,2,1,2,3,1,2,1,3,1,2,3,1,1,2,1,3,1,2,3,1,2,1,3,2,1,1,3,2,1,3];
+    pattern.forEach((w, i) => {
+      const bar = document.createElement('div');
+      bar.style.cssText = `flex: ${w}; background: ${i % 2 === 0 ? '#111' : '#fff'}; height: 100%;`;
+      bc.appendChild(bar);
+    });
+
+    function openCoupon() {
+      document.getElementById('splash').classList.add('fade-out');
+      document.getElementById('coupon').classList.add('visible');
+    }
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
