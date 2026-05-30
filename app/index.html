@@ -8,8 +8,8 @@
   <meta name="apple-mobile-web-app-title" content="Jersey Mike's" />
   <meta name="theme-color" content="#1B3566" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icons/icon.svg" />
-  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="apple-touch-icon" href="icons/icon-512.png" />
+  <link rel="icon" type="image/png" href="icons/icon-512.png" />
   <title>Jersey Mike's</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,7 +22,7 @@
       width: 100vw;
     }
 
-    /* ── SPLASH SCREEN ── */
+    /* SPLASH SCREEN */
     #splash {
       position: fixed;
       inset: 0;
@@ -46,42 +46,63 @@
 
     .tap-hint {
       margin-bottom: 60px;
-      color: rgba(255,255,255,0.8);
-      font-size: 0.9rem;
+      color: rgba(255,255,255,0.85);
+      font-size: 1rem;
       font-weight: 600;
       letter-spacing: 0.08em;
-      text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.7);
+      animation: pulse 2s ease-in-out infinite;
     }
 
-    /* ── COUPON SCREEN ── */
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    /* COUPON SCREEN */
     #coupon {
       position: fixed;
       inset: 0;
-      background: #f5f5f5;
+      background: #f0f0f0;
       overflow-y: auto;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       opacity: 0;
       transition: opacity 0.5s ease;
-      padding: 16px;
+      padding: 20px 16px 40px;
     }
 
     #coupon.visible {
       opacity: 1;
     }
 
+    /* If actual coupon image is available, show it */
+    #coupon-img {
+      width: 100%;
+      max-width: 480px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      margin-top: 10px;
+      display: block;
+    }
+
+    /* HTML fallback coupon */
     .coupon-card {
+      display: none;
       background: #fff;
       border: 3px dashed #9daec8;
       border-radius: 8px;
       width: 100%;
       max-width: 420px;
       padding: 24px 20px 20px;
-      display: flex;
       flex-direction: column;
       gap: 10px;
+      margin-top: 10px;
     }
+
+    .coupon-card.show { display: flex; }
 
     .buy-one-row {
       display: flex;
@@ -136,10 +157,7 @@
       flex-shrink: 0;
     }
 
-    .regular-sub-free {
-      display: flex;
-      flex-direction: column;
-    }
+    .regular-sub-free { display: flex; flex-direction: column; }
 
     .reg-sub-star {
       color: #1B3566;
@@ -177,44 +195,12 @@
       flex-shrink: 0;
     }
 
-    .badge-since {
-      color: #1B3566;
-      font-size: 0.45rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
+    .badge-since { color: #1B3566; font-size: 0.45rem; font-weight: 700; letter-spacing: 0.05em; }
+    .badge-jersey { color: #CC2222; font-size: 0.75rem; font-weight: 900; font-style: italic; font-family: 'Arial Black', Arial, sans-serif; line-height: 1; }
+    .badge-mikes  { color: #CC2222; font-size: 0.7rem;  font-weight: 900; font-style: italic; font-family: 'Arial Black', Arial, sans-serif; line-height: 1; }
+    .badge-subs   { color: #1B3566; font-size: 0.45rem; font-weight: 700; letter-spacing: 0.08em; }
 
-    .badge-jersey {
-      color: #CC2222;
-      font-size: 0.75rem;
-      font-weight: 900;
-      font-style: italic;
-      font-family: 'Arial Black', Arial, sans-serif;
-      line-height: 1;
-    }
-
-    .badge-mikes {
-      color: #CC2222;
-      font-size: 0.7rem;
-      font-weight: 900;
-      font-style: italic;
-      font-family: 'Arial Black', Arial, sans-serif;
-      line-height: 1;
-    }
-
-    .badge-subs {
-      color: #1B3566;
-      font-size: 0.45rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-    }
-
-    .equal-lesser {
-      color: #555;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-
+    .equal-lesser { color: #555; font-size: 0.95rem; line-height: 1.4; }
     .star-red { color: #CC2222; }
 
     .offer-banner {
@@ -235,42 +221,24 @@
       line-height: 1.5;
     }
 
-    .barcode-area {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      margin-top: 4px;
-    }
-
-    .barcode {
-      width: 100%;
-      height: 50px;
-      display: flex;
-      align-items: stretch;
-      gap: 1px;
-      overflow: hidden;
-    }
-
-    .barcode-num {
-      color: #333;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-    }
+    .barcode-area { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 4px; }
+    .barcode { width: 100%; height: 50px; display: flex; align-items: stretch; gap: 1px; overflow: hidden; }
+    .barcode-num { color: #333; font-size: 0.85rem; letter-spacing: 0.1em; }
   </style>
 </head>
 <body>
 
-  <!-- SPLASH -->
+  <!-- SPLASH: Jersey Mike's logo background -->
   <div id="splash" onclick="openCoupon()">
-    <div class="tap-hint">Tap to open coupon</div>
+    <div class="tap-hint">TAP TO VIEW COUPON</div>
   </div>
 
-  <!-- COUPON -->
+  <!-- COUPON SCREEN -->
   <div id="coupon">
-    <div class="coupon-card">
+    <!-- Try real coupon image first; fall back to HTML version -->
+    <img id="coupon-img" src="coupon.png" alt="Jersey Mike's BOGO Coupon" onerror="showHtmlCoupon()" />
 
-      <!-- BUY ONE -->
+    <div class="coupon-card" id="coupon-html">
       <div class="buy-one-row">
         <div class="buy-one-big">BUY<br>ONE</div>
         <div class="regular-sub-stack">
@@ -279,7 +247,6 @@
         </div>
       </div>
 
-      <!-- GET ONE FREE -->
       <div class="get-one-row">
         <div class="get-one-script">Get One</div>
         <div class="regular-sub-free">
@@ -288,12 +255,11 @@
         </div>
       </div>
 
-      <!-- LOGO + DISCLAIMER -->
       <div class="middle-row">
         <div class="jm-badge">
           <div class="badge-since">SINCE 1998</div>
           <div class="badge-jersey">Jersey</div>
-          <div class="badge-mikes">Mike's<sup style="font-size:0.4rem">®</sup></div>
+          <div class="badge-mikes">Mike's<sup style="font-size:0.4rem">&#174;</sup></div>
           <div class="badge-subs">SUBS</div>
         </div>
         <div class="equal-lesser">
@@ -301,32 +267,25 @@
         </div>
       </div>
 
-      <!-- BANNER -->
       <div class="offer-banner">OFFER ONLY VALID AT PARTICIPATING LOCATIONS</div>
 
-      <!-- FINE PRINT -->
       <div class="fine-print">
         One coupon per person per visit per day. Not to be combined<br>
         with other offers. No cash value. Not valid online.
       </div>
 
-      <!-- BARCODE -->
       <div class="barcode-area">
         <div class="barcode" id="barcode"></div>
         <div class="barcode-num">0718</div>
       </div>
-
     </div>
   </div>
 
   <script>
-    const bc = document.getElementById('barcode');
-    const pattern = [3,1,2,1,3,2,1,2,1,3,1,2,3,1,1,2,3,1,2,1,1,3,2,1,3,1,2,1,3,2,1,1,3,2,1,3,1,2,1,2,3,1,2,1,3,1,2,3,1,1,2,1,3,1,2,3,1,2,1,3,2,1,1,3,2,1,3];
-    pattern.forEach((w, i) => {
-      const bar = document.createElement('div');
-      bar.style.cssText = `flex: ${w}; background: ${i % 2 === 0 ? '#111' : '#fff'}; height: 100%;`;
-      bc.appendChild(bar);
-    });
+    function showHtmlCoupon() {
+      document.getElementById('coupon-img').style.display = 'none';
+      document.getElementById('coupon-html').classList.add('show');
+    }
 
     function openCoupon() {
       const splash = document.getElementById('splash');
@@ -335,6 +294,14 @@
       coupon.classList.add('visible');
       splash.addEventListener('transitionend', () => splash.remove(), { once: true });
     }
+
+    const bc = document.getElementById('barcode');
+    const pattern = [3,1,2,1,3,2,1,2,1,3,1,2,3,1,1,2,3,1,2,1,1,3,2,1,3,1,2,1,3,2,1,1,3,2,1,3,1,2,1,2,3,1,2,1,3,1,2,3,1,1,2,1,3,1,2,3,1,2,1,3,2,1,1,3,2,1,3];
+    pattern.forEach((w, i) => {
+      const bar = document.createElement('div');
+      bar.style.cssText = `flex: ${w}; background: ${i % 2 === 0 ? '#111' : '#fff'}; height: 100%;`;
+      bc.appendChild(bar);
+    });
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(() => {});
