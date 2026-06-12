@@ -1,43 +1,75 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <clipPath id="round">
-      <rect width="512" height="512" rx="112" ry="112"/>
+      <rect width="512" height="512" rx="100" ry="100"/>
     </clipPath>
+    <radialGradient id="bg" cx="38%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#243f78"/>
+      <stop offset="100%" stop-color="#162846"/>
+    </radialGradient>
+    <!-- White outline via morphology dilation -->
+    <filter id="white-outline" x="-15%" y="-15%" width="130%" height="130%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="10" result="expanded"/>
+      <feFlood flood-color="white" result="white"/>
+      <feComposite in="white" in2="expanded" operator="in" result="outline"/>
+      <feMerge>
+        <feMergeNode in="outline"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="white-outline-sm" x="-15%" y="-15%" width="130%" height="130%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="5" result="expanded"/>
+      <feFlood flood-color="white" result="white"/>
+      <feComposite in="white" in2="expanded" operator="in" result="outline"/>
+      <feMerge>
+        <feMergeNode in="outline"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
 
-  <!-- Navy background -->
-  <rect width="512" height="512" rx="112" ry="112" fill="#1B3566"/>
+  <!-- Background -->
+  <rect width="512" height="512" rx="100" ry="100" fill="url(#bg)"/>
+
+  <!-- Diagonal shine -->
+  <ellipse cx="170" cy="155" rx="230" ry="170" fill="#2d508f" opacity="0.35" clip-path="url(#round)"/>
 
   <g clip-path="url(#round)">
-    <!-- Subtle diagonal shine -->
-    <ellipse cx="160" cy="140" rx="220" ry="180" fill="#243f78" opacity="0.5"/>
 
     <!-- SINCE 1956 -->
-    <text x="256" y="108" text-anchor="middle"
-      font-family="Arial, sans-serif" font-size="38" font-weight="700"
-      letter-spacing="5" fill="white" opacity="0.9">SINCE 1956</text>
+    <text x="256" y="100"
+      text-anchor="middle"
+      font-family="'Arial Rounded MT Bold', 'Gill Sans Ultra Bold', Arial, sans-serif"
+      font-size="40" font-weight="700" letter-spacing="4"
+      fill="white" filter="url(#white-outline-sm)" opacity="0.0"/>
+    <text x="256" y="100"
+      text-anchor="middle"
+      font-family="'Arial Rounded MT Bold', 'Gill Sans Ultra Bold', Arial, sans-serif"
+      font-size="40" font-weight="700" letter-spacing="4"
+      fill="white">SINCE 1956</text>
 
-    <!-- White outline shadow for Jersey -->
-    <text x="256" y="222" text-anchor="middle"
-      font-family="Arial Black, Arial, sans-serif" font-size="110" font-weight="900"
-      font-style="italic" fill="white" stroke="white" stroke-width="12">Jersey</text>
-    <!-- Jersey in red -->
-    <text x="256" y="222" text-anchor="middle"
-      font-family="Arial Black, Arial, sans-serif" font-size="110" font-weight="900"
-      font-style="italic" fill="#CC2222">Jersey</text>
+    <!-- Jersey -->
+    <text x="256" y="248"
+      text-anchor="middle"
+      font-family="'Arial Rounded MT Bold', 'Gill Sans Ultra Bold', 'Cooper Black', 'Arial Black', sans-serif"
+      font-size="148" font-weight="900" font-style="italic"
+      fill="#CC1F1F"
+      filter="url(#white-outline)">Jersey</text>
 
-    <!-- White outline for Mike's -->
-    <text x="256" y="342" text-anchor="middle"
-      font-family="Arial Black, Arial, sans-serif" font-size="105" font-weight="900"
-      font-style="italic" fill="white" stroke="white" stroke-width="12">Mike's®</text>
-    <!-- Mike's in red -->
-    <text x="256" y="342" text-anchor="middle"
-      font-family="Arial Black, Arial, sans-serif" font-size="105" font-weight="900"
-      font-style="italic" fill="#CC2222">Mike's®</text>
+    <!-- Mike's -->
+    <text x="262" y="388"
+      text-anchor="middle"
+      font-family="'Arial Rounded MT Bold', 'Gill Sans Ultra Bold', 'Cooper Black', 'Arial Black', sans-serif"
+      font-size="136" font-weight="900" font-style="italic"
+      fill="#CC1F1F"
+      filter="url(#white-outline)">Mike's&#174;</text>
 
     <!-- SUBS -->
-    <text x="256" y="428" text-anchor="middle"
-      font-family="Arial, sans-serif" font-size="48" font-weight="700"
-      letter-spacing="14" fill="white" opacity="0.9">SUBS</text>
+    <text x="256" y="448"
+      text-anchor="middle"
+      font-family="'Arial Rounded MT Bold', 'Gill Sans Ultra Bold', Arial, sans-serif"
+      font-size="46" font-weight="700" letter-spacing="10"
+      fill="white">SUBS</text>
+
   </g>
 </svg>
